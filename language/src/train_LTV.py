@@ -1,19 +1,16 @@
 import argparse
-import os
-import sys
 from collections import deque
+import os
 
 import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-sys.path.append('..')
-
-from ltv_utils.data import set_seed, sample_attn_out, sample_data, forward_pass
-from ltv_utils.LTV import LearnableTaskVector
-from src.utils.model_utils import load_gpt_model_and_tokenizer
-from src.utils.prompt_utils import load_dataset
+from LTV_utils.data import set_seed, sample_attn_out, sample_data, forward_pass
+from LTV_utils.LTV import LearnableTaskVector
+from FV_utils.model_utils import load_gpt_model_and_tokenizer
+from FV_utils.prompt_utils import load_dataset
 
 
 VOCAB_SIZE = 50400
@@ -21,8 +18,7 @@ VERBOSE_FREQ = 20
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description='Experiment 0: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
+    parser = argparse.ArgumentParser(description='Training Learnable Task Vectors on language tasks')
 
     # Task
     parser.add_argument("--dataset", default="mixed", choices=["antonym", "synonym", "mixed"])

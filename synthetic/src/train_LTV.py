@@ -1,5 +1,4 @@
 import argparse
-import os
 import sys
 
 import seaborn as sns
@@ -18,18 +17,17 @@ sys.path.append("..")  # Adds higher directory to python modules path
 sns.set_theme('notebook', 'darkgrid')
 palette = sns.color_palette('colorblind')
 
-plt.rcParams['figure.figsize'] = (10, 6)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Experiment 0: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
+    parser = argparse.ArgumentParser(description='Training Learnable Task Vectors on synthetic tasks')
 
     # Task
     parser.add_argument("--task", default="sparse_linear_regression", help='Task for transformer to perform through ICL',
                         choices=['linear_regression', 'sparse_linear_regression', 'decision_tree', 'relu_2nn_regression'])
 
     # Large batch sizes result in smoother curves
-    parser.add_argument("--seq_len", default=None, type=int, help='Sequence length to train on')
+    parser.add_argument("--seq_len", default=56, type=int, help='Sequence length to train on')
     parser.add_argument("--batch_size", default=256, type=int, help='Batch size the results computed over')
 
     # LTV training params

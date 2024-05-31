@@ -3,15 +3,14 @@ import os
 import sys
 
 from munch import Munch
-import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import torch
 import yaml
 
-import models
-from samplers import get_data_sampler, sample_transformation
-from tasks import get_task_sampler
+from .models import build_model
+from .samplers import get_data_sampler, sample_transformation
+from .tasks import get_task_sampler
 
 
 def get_model_from_run(run_path, step=-1, only_conf=False):
@@ -21,7 +20,7 @@ def get_model_from_run(run_path, step=-1, only_conf=False):
     if only_conf:
         return None, conf
 
-    model = models.build_model(conf.model)
+    model = build_model(conf.model)
 
     if step == -1:
         state_path = os.path.join(run_path, "state.pt")
@@ -284,38 +283,6 @@ def compute_evals(all_models, evaluation_kwargs, save_path=None, recompute=False
         with open(save_path, "w") as fp:
             json.dump(all_metrics, fp, indent=2)
 
-    return all_metrics
-
-
-def get_run_metrics(
-    run_path, step=-1, cache=True, skip_model_load=False, skip_baselines=False
-):
-    if skip_model_load:
-        _, conf = get_model_from_run(run_path, only_conf=True)
-        all_models = []
-    else:
-        model, conf = get_model_from_run(run_path, step)
-        model = model.cuda().eval()
-        all_models = [model]
-        if not skip_baselines:
-            all_models += models.get_relevant_baselines(conf.training.task)
-    evaluation_kwargs = build_evals(conf)
-
-    if not cache:
-        save_path = None
-    elif step == -1:
-        save_path = os.path.join(run_path, "metrics.json")
-    else:
-        save_path = os.path.join(run_path, f"metrics_{step}.json")
-
-    recompute = False
-    if save_path is not None and os.path.exists(save_path):
-        checkpoint_created = os.path.getmtime(run_path)
-        cache_created = os.path.getmtime(save_path)
-        if checkpoint_created > cache_created:
-            recompute = True
-
-    all_metrics = compute_evals(all_models, evaluation_kwargs, save_path, recompute)
     return all_metrics
 
 

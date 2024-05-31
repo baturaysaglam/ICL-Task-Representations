@@ -1,4 +1,3 @@
-import os
 import time
 
 import matplotlib
@@ -40,10 +39,8 @@ tex_fonts = {
     # reduce padding of x/y label ticks with plots
     "xtick.major.pad":0,
     "ytick.major.pad":0,
-    #set figure size and dpi
-    # 'figure.figsize': (4.875, 3.69),
+    #set figure dpi
     'figure.dpi': 600,
-    # 'pdf.fonttype' : 42
 }
 plt.rcParams.update(tex_fonts)
 

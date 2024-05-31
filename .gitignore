@@ -1,2 +1,12 @@
 /synthetic/src/attn_dist_check.py
 /synthetic/src/LTV_plot.py
+/synthetic/src/visualize_weights.py
+/synthetic/src/train.py
+/synthetic/src/schema.py
+/synthetic/src/plot_utils.py
+/synthetic/src/curriculum.py
+/synthetic/src/base_models.py
+/synthetic/models/
+/synthetic/src/LTV_models
+/synthetic/src/LTV_inference/
+/synthetic/src/LTV_ablation/

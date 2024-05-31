@@ -16,18 +16,10 @@ scale = 1.0
 L = [6, 7, 8]
 
 
-def calculate_memory_allocation(tensor):
-    num_elements = tensor.numel()
-    element_size = tensor.element_size()
-    memory_allocation_bytes = num_elements * element_size
-    memory_allocation_mb = memory_allocation_bytes / (1024 ** 2)
-    return memory_allocation_mb
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='LTV Inference: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
 
-    parser.add_argument("--dist_shift", default='orthogonal_query', type=str, help='Type of the distributional shift applied to the data', choices=['skewed', 'noisy_linear_regression', 'orthogonal_query'])
+    parser.add_argument("--dist_shift", default=None, type=str, help='Type of the distributional shift applied to the data', choices=['skewed', 'noisy_linear_regression', 'orthogonal_query'])
 
     # Large batch sizes result in smoother curves
     parser.add_argument("--batch_size", default=256, type=int, help='Batch size the results computed over')
@@ -87,10 +79,7 @@ if __name__ == "__main__":
 
         ############################## LONG TASKS ##############################
         # Sample the data consisting of long prompts
-        if args_dict['dist_shift'] is None:
-            xs_test = covariate_sampler.sample_xs(b_size=batch_size, n_points=long_seq_len).to(device)
-            ys_test = task.evaluate(xs_test).to(device)
-        elif args_dict['dist_shift'] == 'skewed':
+        if args_dict['dist_shift'] == 'skewed':
             eigenvals = 1 / (torch.arange(n_dims) + 1)
             covar = sample_transformation(eigenvals, normalize=True)
             covariate_sampler = GaussianSampler(n_dims, bias=0, scale=covar)
@@ -106,6 +95,9 @@ if __name__ == "__main__":
         elif args_dict['dist_shift'] == 'orthogonal_query':
             _, xs_test = gen_orthogonal_train_test(covariate_sampler, long_seq_len, batch_size)
             xs_test = xs_test.to(device)
+            ys_test = task.evaluate(xs_test).to(device)
+        else:
+            xs_test = covariate_sampler.sample_xs(b_size=batch_size, n_points=long_seq_len).to(device)
             ys_test = task.evaluate(xs_test).to(device)
 
         with torch.no_grad():

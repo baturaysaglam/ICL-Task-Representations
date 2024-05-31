@@ -4,7 +4,7 @@ import yaml
 import numpy as np
 import torch
 
-from eval import get_model_from_run, get_data_sampler, get_task_sampler
+from ..eval import get_model_from_run, get_data_sampler, get_task_sampler
 from .function_vector import add_function_vector, translate_transformer_output
 from .learnable_task_vector import add_learnable_task_vector
 from .in_context_vector import add_icv

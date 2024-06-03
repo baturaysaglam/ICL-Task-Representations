@@ -27,7 +27,7 @@ def normalize(lst, min_val, max_val):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='LTV Inference: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
+    parser = argparse.ArgumentParser(description='Plot the loss curves based on the saved model predictions')
 
     parser.add_argument("--dist_shift", default='orthogonal_query', type=str,
                         help='Type of the distributional shift applied to the data',

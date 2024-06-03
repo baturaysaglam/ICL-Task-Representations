@@ -3,22 +3,20 @@ from baukit import TraceDict
 
 def add_learnable_task_vector(lt_vector, idx=-1, scale=1.0):
     """
-    Adds a vector to the output of a specified layer in the model
+    Adds the LTV the layer outputs of the model
 
     Parameters:
-    edit_layer: the layer to perform the FV intervention
-    fv_vector: the function vector to add as an intervention
-    device: device of the model (cuda gpu or cpu)
+    lt_vector: the Learnable Task Vector to add as an intervention
     idx: the token index to add the function vector at
+    scale: scale of the LTV
 
     Returns:
     add_act: a fuction specifying how to add a function vector to a layer's output hidden state
     """
-
     def add_act(output, layer_name):
         layer_idx = int(layer_name.split(".")[2])
         if isinstance(output, tuple):
-            output[0][:, idx] += scale * lt_vector[layer_idx, :]
+            output[0][:, idx] += lt_vector[layer_idx, :]
             return output
         else:
             return output
@@ -30,14 +28,13 @@ def ltv_intervention(sentence, target, lt_vector, model, model_config, tokenizer
                      compute_nll=False,
                      generate_str=False):
     """
-    Runs the model on the sentence and adds the function_vector to the output of edit_layer as a model intervention, predicting a single token.
-    Returns the output of the model with and without intervention.
+    Runs the model on the sentence and adds the lt_vector to the output of layer activations as a model intervention, predicting a single token.
+    Returns the output of the model with intervention.
 
     Parameters:
     sentence: the sentence to be run through the model
     target: expected response of the model (str, or [str])
-    edit_layer: layer at which to add the function vector
-    function_vector: torch vector that triggers execution of a task
+    lt_vector: torch vector that triggers execution of a task
     model: huggingface model
     model_config: contains model config information (n layers, n heads, etc.)
     tokenizer: huggingface tokenizer
@@ -45,7 +42,7 @@ def ltv_intervention(sentence, target, lt_vector, model, model_config, tokenizer
     generate_str: whether to generate a string of tokens or predict a single token
 
     Returns:
-    fvi_output: a tuple containing output results of a clean run and intervened run of the model
+    modified_output: a tuple containing output results of a clean run and intervened run of the model
     """
     # Clean Run, No Intervention:
     device = model.device
@@ -84,11 +81,11 @@ def ltv_intervention(sentence, target, lt_vector, model, model_config, tokenizer
         else:
             intervention_output = model(**inputs).logits[:, -1, :]  # batch_size x n_tokens x vocab_size, only want last token prediction
 
-    fvi_output = (clean_output, intervention_output)
+    modified_output = (clean_output, intervention_output)
     if compute_nll:
-        fvi_output += (clean_nll, intervention_nll)
+        modified_output += (clean_nll, intervention_nll)
 
-    return fvi_output
+    return modified_output
 
 
 def ltv_intervention_natural_text(sentence, lt_vector, model, model_config, tokenizer,
@@ -98,8 +95,7 @@ def ltv_intervention_natural_text(sentence, lt_vector, model, model_config, toke
 
     Parameters:
     sentence: sentence to intervene on with the FV
-    edit_layer: layer at which to add the function vector
-    function_vector: vector to add to the model that triggers execution of a task
+    lt_vector: layer at which to add the learnable task vector
     model: huggingface model
     model_config: dict with model config parameters (n_layers, n_heads, etc.)
     tokenizer: huggingface tokenizer
@@ -110,7 +106,6 @@ def ltv_intervention_natural_text(sentence, lt_vector, model, model_config, toke
     Returns:
     clean_output: tokens of clean output
     intervention_output: tokens of intervention output
-
     """
     # Clean Run, No Intervention:
     device = model.device

@@ -3,6 +3,11 @@ import torch.nn as nn
 
 
 class LearnableTaskVector(nn.Module):
+    """
+    Class for Learnable Task vectors.
+    No activation functions or further optimization technique is used.
+    The weights are initialized to be between -1 and 1 according to the standard Gaussian distribution.
+    """
     def __init__(self, n_layers, n_heads, n_head_dim, act_fn=None):
         super(LearnableTaskVector, self).__init__()
         # Initialize the weights using a uniform distribution between 0 and 1

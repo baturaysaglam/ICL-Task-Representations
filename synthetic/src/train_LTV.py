@@ -1,7 +1,6 @@
 import argparse
 import sys
 
-import seaborn as sns
 import torch.optim as optim
 import torch.nn.functional as F
 
@@ -18,9 +17,8 @@ sns.set_theme('notebook', 'darkgrid')
 palette = sns.color_palette('colorblind')
 
 
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Training Learnable Task Vectors on synthetic tasks')
+    parser = argparse.ArgumentParser(description='Training Learnable Task Vectors on language tasks')
 
     # Task
     parser.add_argument("--task", default="sparse_linear_regression", help='Task for transformer to perform through ICL',

@@ -17,7 +17,7 @@ L = [6, 7, 8]
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='LTV Inference: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
+    parser = argparse.ArgumentParser(description='Inference of the trained Learnable Task Vectors')
 
     parser.add_argument("--dist_shift", default=None, type=str, help='Type of the distributional shift applied to the data', choices=['skewed', 'noisy_linear_regression'])
 

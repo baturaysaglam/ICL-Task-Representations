@@ -9,10 +9,14 @@ def swish(x, beta=1):
 
 
 class LearnableTaskVector(nn.Module):
+    """
+    Class for Learnable Task vectors.
+    No activation functions or further optimization technique is used.
+    The weights are initialized to be between -1 and 1 according to the standard Gaussian distribution.
+    """
     def __init__(self, n_layers, n_heads, act_fn=None):
         super(LearnableTaskVector, self).__init__()
-        # Initialize the weights using a uniform distribution between 0 and 1
-        self.weights = nn.Parameter(torch.rand(n_layers, n_heads))
+        self.weights = nn.Parameter(torch.randn(n_layers, n_heads))
         self.act_fn = act_fn
 
     def forward(self, x):
@@ -113,12 +117,20 @@ def get_activations(model, xs, ys, n_layers, n_heads, head_dim, resid_dim, type=
 
 def add_learnable_task_vector(model, xs, ys, LTV, dummy_indices=None, scale=1.0, output_hidden_states=False):
     """
-    Modify the output of a specified layer in a transformer model by adding a vector.
+    Runs the model on the sentence and adds the lt_vector to the output of layer activations as a model intervention, predicting a single token.
+    Returns the output of the model with intervention.
 
-    :param model: The transformer model.
-    :param input_data: The input data to the model.
-    :param vector_to_add: The vector to be added to the output of the specified layer.
-    :return: The modified output of the transformer.
+    Parameters:
+    model: huggingface model
+    xs: covariates
+    ys: labels --> ys = f(xs)
+    LTV: torch vector that triggers execution of a task
+    dummy_indices: position of dummy variables to "remind" the model of the task
+    scale: scale of the LTV
+    output_hidden_states: to output the hidden states or just the modified outout
+
+    Returns:
+    modified_output: a tuple containing output results of a clean run and intervened run of the model
     """
     # A hook function that adds the vector to the output of the specified layers.
     def modify_layer_output(layer_idx):

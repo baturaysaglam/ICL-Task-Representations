@@ -8,7 +8,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 from LTV_utils.data import set_seed, sample_attn_out, sample_data, forward_pass
-from LTV_utils.LTV import LearnableTaskVector
+from LTV_utils.learnable_task_vector import LearnableTaskVector
 from FV_utils.model_utils import load_gpt_model_and_tokenizer
 from FV_utils.prompt_utils import load_dataset
 

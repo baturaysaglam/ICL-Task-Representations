@@ -67,7 +67,7 @@ def apply_svd(data, n_components):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='LTV Inference: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
+    parser = argparse.ArgumentParser(description='Given the compiled dataset, extract the principal components of attention/layer activations using SVD/PCA')
 
     # Large batch sizes result in smoother curves
     parser.add_argument("--task", default="linear_regression", type=str, help='Task name', choices=['linear_regression', 'sparse_linear_regression', 'relu_2nn_regression'])

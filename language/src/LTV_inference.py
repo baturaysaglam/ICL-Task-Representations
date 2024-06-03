@@ -11,7 +11,7 @@ from FV_utils.model_utils import load_gpt_model_and_tokenizer
 from FV_utils.prompt_utils import load_dataset, word_pairs_to_prompt_data, create_prompt
 from FV_utils.eval_utils import decode_to_vocab
 
-from LTV_utils.LTV import LearnableTaskVector
+from LTV_utils.learnable_task_vector import LearnableTaskVector
 from LTV_utils.extract_utils import get_attn_out
 from LTV_utils.intervention_utils import ltv_intervention
 
@@ -33,7 +33,6 @@ if __name__ == "__main__":
 
     # Large batch sizes result in smoother curves
     parser.add_argument("--n_trials", default=256, type=int, help='Number of seeds')
-    parser.add_argument("--batch_size", default=100, type=int, help='Batch size the results computed over')
 
     # Logistics
     parser.add_argument("--start_seed", default=17, type=int, help='Seed number for PyTorch, NumPy and OpenAI Gym (default: 17)')

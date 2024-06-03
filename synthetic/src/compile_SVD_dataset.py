@@ -1,10 +1,8 @@
 import argparse
-import os
 
 from utils.experiment import *
 from utils.function_vector import *
 from utils.learnable_task_vector import *
-from utils.plot import *
 
 
 n_FV_heads = 35
@@ -22,7 +20,7 @@ def calculate_memory_allocation(tensor):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='LTV Inference: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
+    parser = argparse.ArgumentParser(description='Create a dataset for SVD by collecting attention and layer activations')
 
     # Large batch sizes result in smoother curves
     parser.add_argument("--algo", default="LTV", type=str, help='Approach name', choices=['vanilla', 'vanilla_max', 'FV', 'LTV'])

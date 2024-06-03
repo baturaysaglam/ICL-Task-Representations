@@ -39,7 +39,7 @@ tex_fonts = {
     # reduce padding of x/y label ticks with plots
     "xtick.major.pad":0,
     "ytick.major.pad":0,
-    #set figure dpi
+    # set figure dpi
     'figure.dpi': 600,
 }
 plt.rcParams.update(tex_fonts)

@@ -1,5 +1,7 @@
 # Learning Task Representations from In-Context Learning
 
+![Operations of LTV](figures/LTV_1.png "Operations of LTV")
+
 ## Getting Started
 
 #### 1. Dependencies
@@ -20,8 +22,9 @@ pip install .
 
 **Note:** Our method works on two modalities: numeric functions (synthetic tasks) and language. For functions, we use the [code](https://github.com/dtsip/in-context-learning) from [Garg et al.](https://arxiv.org/abs/2208.01066), while the [code](https://github.com/ericwtodd/function_vectors) of [Todd et al.](https://functions.baulab.info/) is utilized for the linguistic tasks. So we examine the requirements for functions and language separetely. 
 
-
-### Synthetic Tasks
+## Training a Learnable Task Vector
+![Training pipeline of LTV](figures/LTV_2.png "Training pipeline of LTV")
+### 1. Synthetic Tasks
 #### 0. Load the trained GPT-2 models
 We use the models trained by [Garg et al.](https://arxiv.org/abs/2208.01066). This training is somewhat different than the generic pretraining of GPT-2. They just simply slightly modify the architecture by adding a linear layer to preprocess numbers. Refer to the paper for more details.
 ```
@@ -50,7 +53,7 @@ Plot the loss curves based on the saved predictions. You need to specify the typ
 python LTV_plot.py --dist_shift noisy_linear_regression
 ```
 
-### Language Tasks
+### 2. Language Tasks
 #### 1. Train a Learnable Task Vector [optional]
 ```
 python train_LTV.py --dataset antonym --n_examples 10 --batch_size 256

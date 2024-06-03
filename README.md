@@ -30,4 +30,21 @@ wget https://github.com/dtsip/in-context-learning/releases/download/initial/mode
 unzip models.zip
 ```
 
-### 1. 
+### 1. Train a Learnable Task Vector [optional]
+Train a task vector on a specified function class. This will first generate a dataset of size being typically $100 \times \texttt{batch size}$. Then the LTV layer will be trained on this dataset. An example usage:
+```
+python train_LTV.py --task linear_regression --seq_len 71 --batch_size 512 --lr 5e-5
+```
+
+### 2. Perform inference of the trained Learnable Task Vector
+Perform inference of: vanilla GPT-2, GPT-2 + Function Vectors (benchmark), and GPT-2 + Learnable Task Vector. Inference takes time so the predictions will be saved. You can specify the distributional shift:
+```
+python LTV_inference.py --dist_shift skewed
+```
+If nothing passed, no distributional shift will be applied.
+
+### 3. Plot the results
+Plot the loss curves based on the saved predictions. You need to specify the type of distributional shift once again:
+```
+python LTV_plot.py --dist_shift noisy_linear_regression
+```

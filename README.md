@@ -22,5 +22,12 @@ pip install .
 
 
 ## Synthetic Tasks
-### 0. Load the pretrained GPT-2 models
+### 0. Load the trained GPT-2 models
+We use the models trained by [Garg et al.](https://arxiv.org/abs/2208.01066). This training is somewhat different than the generic pretraining of GPT-2. They just simply slightly modify the architecture by adding a linear layer to preprocess numbers. Refer to the paper for more details.
+```
+cd synthetic
+wget https://github.com/dtsip/in-context-learning/releases/download/initial/models.zip
+unzip models.zip
+```
 
+### 1. 

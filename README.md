@@ -49,3 +49,15 @@ Plot the loss curves based on the saved predictions. You need to specify the typ
 ```
 python LTV_plot.py --dist_shift noisy_linear_regression
 ```
+
+## Language Tasks
+#### 1. Train a Learnable Task Vector [optional]
+```
+python train_LTV.py --dataset antonym --n_examples 10 --batch_size 256
+```
+
+#### 2. Perform inference of the trained Learnable Task Vector
+Inference is performed over the specified tasks (as a list) separately. ``n_trials`` specifies the number of times that the transformers are queried.
+```
+python LTV_inference.py --task_names antonym, synonym --prompt_type zero-shot --n_trials 256
+```

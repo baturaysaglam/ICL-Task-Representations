@@ -7,6 +7,5 @@
 /synthetic/src/curriculum.py
 /synthetic/src/base_models.py
 /synthetic/models/
-/synthetic/src/LTV_models
 /synthetic/src/LTV_inference/
 /synthetic/src/LTV_ablation/

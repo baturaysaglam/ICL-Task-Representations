@@ -36,7 +36,7 @@ if __name__ == "__main__":
     parser.add_argument("--sgd_batch_size", default=256, type=int, help='Batch size in training the LTV')
     parser.add_argument("--n_epochs", default=10000, type=int, help='Number of epochs to LTV training')
     parser.add_argument("--early_stoppage_tolerance", default=7, type=int, help='Allowable number of epochs with no improvement in validation loss')
-    parser.add_argument("--n_batches", default=1000, type=int, help='Total num of samples: batch_size x num_batches')
+    parser.add_argument("--n_batches", default=100, type=int, help='Total num of samples: batch_size x num_batches')
 
     # Logistics
     parser.add_argument("--seed", default=17, type=int, help='Seed number for PyTorch, NumPy and OpenAI Gym (default: 17)')

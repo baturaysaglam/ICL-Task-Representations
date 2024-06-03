@@ -19,7 +19,7 @@ L = [6, 7, 8]
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='LTV Inference: Learnable Task Vectors vs FVs on in-, out-of-dist data, and under dist shift')
 
-    parser.add_argument("--dist_shift", default=None, type=str, help='Type of the distributional shift applied to the data', choices=['skewed', 'noisy_linear_regression', 'orthogonal_query'])
+    parser.add_argument("--dist_shift", default=None, type=str, help='Type of the distributional shift applied to the data', choices=['skewed', 'noisy_linear_regression'])
 
     # Large batch sizes result in smoother curves
     parser.add_argument("--batch_size", default=256, type=int, help='Batch size the results computed over')
